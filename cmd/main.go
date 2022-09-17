@@ -1,7 +1,9 @@
 package main
 
 import (
+	"errors"
 	"fmt"
+	"os"
 	"rosswilson/usercapacity/api"
 	"rosswilson/usercapacity/utility"
 	"time"
@@ -24,14 +26,15 @@ func main() {
 }
 
 func loggingStatus() bool {
-	loggingEnv := utility.GetEnvOrPanic("LOGGING")
+	loggingEnv := utility.GetEnvOrExit("LOGGING")
 	return utility.StringToBool(loggingEnv)
 }
 
 func loadEnv() {
 	err := godotenv.Load()
 	if err != nil {
-		panic("cmd: error loading .env file")
+		fmt.Println(errors.New("cmd: error loading .env file"))
+		os.Exit(1)
 	}
 }
 

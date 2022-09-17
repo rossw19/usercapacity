@@ -6,10 +6,11 @@ import (
 	"strconv"
 )
 
-func GetEnvOrPanic(key string) string {
+func GetEnvOrExit(key string) string {
 	value := os.Getenv(key)
 	if value == "" {
-		panic(fmt.Sprintf("utility: env variable %s could not be found", key))
+		fmt.Println(fmt.Errorf("utility: env variable %s could not be found", key))
+		os.Exit(1)
 	}
 
 	return value

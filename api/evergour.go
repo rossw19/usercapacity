@@ -19,9 +19,9 @@ type everhourStrategy struct {
 
 func CreateEverhourStrategy() *everhourStrategy {
 	return &everhourStrategy{
-		url:        utility.GetEnvOrPanic("EVERHOUR_URL"),
-		authKey:    utility.GetEnvOrPanic("EVERHOUR_AUTH_KEY"),
-		apiVersion: utility.GetEnvOrPanic("EVERHOUR_API_VERSION"),
+		url:        utility.GetEnvOrExit("EVERHOUR_URL"),
+		authKey:    utility.GetEnvOrExit("EVERHOUR_AUTH_KEY"),
+		apiVersion: utility.GetEnvOrExit("EVERHOUR_API_VERSION"),
 		logger:     utility.GetLogger(),
 	}
 }

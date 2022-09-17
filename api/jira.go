@@ -15,9 +15,9 @@ type jiraStrategy struct {
 
 func CreateJiraStrategy() *jiraStrategy {
 	return &jiraStrategy{
-		url:      utility.GetEnvOrPanic("JIRA_URL"),
-		username: utility.GetEnvOrPanic("JIRA_USERNAME"),
-		password: utility.GetEnvOrPanic("JIRA_PASSWORD"),
+		url:      utility.GetEnvOrExit("JIRA_URL"),
+		username: utility.GetEnvOrExit("JIRA_USERNAME"),
+		password: utility.GetEnvOrExit("JIRA_PASSWORD"),
 	}
 }
 
