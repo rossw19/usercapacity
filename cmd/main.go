@@ -10,10 +10,7 @@ import (
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		panic("cmd: error loading .env file")
-	}
+	loadEnv()
 
 	utility.GetLogger().SetFile("var/log/debug.log").SetActive(loggingStatus())
 
@@ -30,4 +27,11 @@ func main() {
 func loggingStatus() bool {
 	loggingEnv := utility.GetEnvOrPanic("LOGGING")
 	return utility.StringToBool(loggingEnv)
+}
+
+func loadEnv() {
+	err := godotenv.Load()
+	if err != nil {
+		panic("cmd: error loading .env file")
+	}
 }
