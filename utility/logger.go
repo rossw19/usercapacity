@@ -11,7 +11,7 @@ import (
 
 var lock = &sync.Mutex{}
 
-type logger struct {
+type Logger struct {
 	active    bool
 	fileparts struct {
 		file string
@@ -19,7 +19,7 @@ type logger struct {
 	}
 }
 
-func (l *logger) SetFile(filename string) *logger {
+func (l *Logger) SetFile(filename string) *Logger {
 	l.fileparts.file = filename
 	l.splitFileparts()
 
@@ -35,7 +35,7 @@ func (l *logger) SetFile(filename string) *logger {
 	return l
 }
 
-func (l *logger) createOrOpenFile(chmod fs.FileMode) (*os.File, error) {
+func (l Logger) createOrOpenFile(chmod fs.FileMode) (*os.File, error) {
 	if err := os.MkdirAll(l.fileparts.path, chmod); err != nil {
 		return nil, err
 	}
@@ -47,7 +47,7 @@ func (l *logger) createOrOpenFile(chmod fs.FileMode) (*os.File, error) {
 	return os.Create(l.fileparts.file)
 }
 
-func (l *logger) splitFileparts() {
+func (l *Logger) splitFileparts() {
 	if !strings.Contains(l.fileparts.file, "/") {
 		l.fileparts.path = ""
 		return
@@ -59,26 +59,29 @@ func (l *logger) splitFileparts() {
 	l.fileparts.path = path
 }
 
-func (l *logger) SetActive(active bool) *logger {
+func (l *Logger) SetActive(active bool) *Logger {
 	l.active = active
 	return l
 }
 
-func (l *logger) Write(line string) {
+func (l Logger) Write(line string) {
 	if l.active {
 		log.Println(line)
+		return
 	}
+
+	fmt.Println(line)
 }
 
-var loggerInstance *logger
+var loggerInstance *Logger
 
-func GetLogger() *logger {
+func GetLogger() *Logger {
 	if loggerInstance == nil {
 		lock.Lock()
 		defer lock.Unlock()
 
 		if loggerInstance == nil {
-			loggerInstance = &logger{}
+			loggerInstance = &Logger{}
 		}
 	}
 
