@@ -11,8 +11,7 @@ import (
 
 func main() {
 	loadEnv()
-
-	utility.GetLogger().SetFile("var/log/debug.log").SetActive(loggingStatus())
+	initLogger(loggingStatus())
 
 	dates := utility.CreateDates(-21, time.Now())
 
@@ -34,4 +33,10 @@ func loadEnv() {
 	if err != nil {
 		panic("cmd: error loading .env file")
 	}
+}
+
+func initLogger(loggingStatus bool) {
+	logger := utility.GetLogger()
+	logger.SetFile("var/log/debug.log")
+	logger.SetActive(loggingStatus)
 }
