@@ -18,6 +18,6 @@ func (a apiContext) ExecuteApi() {
 
 type ApiStrategy interface {
 	execute()
-	createRequest()
+	processRequest()
 	processResponse() []byte
 }

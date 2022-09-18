@@ -27,11 +27,11 @@ func CreateEverhourStrategy() *everhourStrategy {
 }
 
 func (e everhourStrategy) execute() {
-	e.createRequest()
-	fmt.Println(string(e.processResponse()))
+	e.processRequest()
+	e.processResponse()
 }
 
-func (e *everhourStrategy) createRequest() {
+func (e *everhourStrategy) processRequest() {
 	req, err := http.NewRequest("GET", e.url+e.requestUri, nil)
 	if err != nil {
 		e.logger.Write(fmt.Sprintf("api: bad http request %+v", req))

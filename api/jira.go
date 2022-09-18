@@ -30,7 +30,7 @@ func (j *jiraStrategy) encodeUsernamePassword() {
 	j.encoded = base64.StdEncoding.EncodeToString([]byte(usernamePassword))
 }
 
-func (j *jiraStrategy) createRequest() {
+func (j *jiraStrategy) processRequest() {
 
 }
 
