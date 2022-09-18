@@ -1,6 +1,9 @@
 package model
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"rosswilson/usercapacity/utility"
+)
 
 type everhourUserModel struct {
 	stream    []byte
@@ -30,6 +33,8 @@ func (e *everhourUserModel) buildModel() {
 			name: j.Name,
 		})
 	}
+
+	utility.GetLogger().Write("model: built everhourUserModel")
 }
 
 func (e everhourUserModel) GetPrototype() *Model {
@@ -75,6 +80,8 @@ func (e *everhourTimeModel) buildModel() {
 			trackedTime: j.Time,
 		})
 	}
+
+	utility.GetLogger().Write("model: built everhourTimeModel")
 }
 
 func (e everhourTimeModel) GetPrototype() *Model {
