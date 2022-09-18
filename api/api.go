@@ -1,18 +1,23 @@
 package api
 
-type apiContext struct {
+type Context interface {
+	SetApiStrategy(ApiStrategy)
+	ExecuteApi()
+}
+
+type ApiContext struct {
 	apiStrategy ApiStrategy
 }
 
-func CreateApiContext() *apiContext {
-	return &apiContext{}
+func CreateApiContext() *ApiContext {
+	return &ApiContext{}
 }
 
-func (a *apiContext) SetApiStrategy(apiStrategy ApiStrategy) {
+func (a *ApiContext) SetApiStrategy(apiStrategy ApiStrategy) {
 	a.apiStrategy = apiStrategy
 }
 
-func (a apiContext) ExecuteApi() {
+func (a ApiContext) ExecuteApi() {
 	a.apiStrategy.execute()
 }
 

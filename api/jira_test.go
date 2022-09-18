@@ -3,7 +3,7 @@ package api
 import "testing"
 
 func TestEncodeUsernameAndPassword(t *testing.T) {
-	jira := jiraStrategy{
+	jira := JiraStrategy{
 		username: "username",
 		password: "password",
 	}

@@ -81,9 +81,9 @@ func (e everhourTimeModel) GetPrototype() *Model {
 	return e.prototype
 }
 
-func CreateEverhourTimeModel(data []byte, model *Model) *everhourTimeModel {
+func CreateEverhourTimeModel(data []byte, model Model) *everhourTimeModel {
 	return &everhourTimeModel{
 		stream:    data,
-		prototype: model,
+		prototype: &model,
 	}
 }

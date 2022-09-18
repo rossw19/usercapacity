@@ -6,34 +6,34 @@ import (
 	"rosswilson/usercapacity/utility"
 )
 
-type jiraStrategy struct {
+type JiraStrategy struct {
 	url      string
 	username string
 	password string
 	encoded  string
 }
 
-func CreateJiraStrategy() *jiraStrategy {
-	return &jiraStrategy{
+func CreateJiraStrategy() *JiraStrategy {
+	return &JiraStrategy{
 		url:      utility.GetEnvOrExit("JIRA_URL"),
 		username: utility.GetEnvOrExit("JIRA_USERNAME"),
 		password: utility.GetEnvOrExit("JIRA_PASSWORD"),
 	}
 }
 
-func (j jiraStrategy) execute() {
+func (j JiraStrategy) execute() {
 	j.encodeUsernamePassword()
 }
 
-func (j *jiraStrategy) encodeUsernamePassword() {
+func (j *JiraStrategy) encodeUsernamePassword() {
 	usernamePassword := fmt.Sprintf("%s:%s", j.username, j.password)
 	j.encoded = base64.StdEncoding.EncodeToString([]byte(usernamePassword))
 }
 
-func (j *jiraStrategy) processRequest() {
+func (j *JiraStrategy) processRequest() {
 
 }
 
-func (j jiraStrategy) processResponse() []byte {
+func (j JiraStrategy) processResponse() []byte {
 	return make([]byte, 0)
 }

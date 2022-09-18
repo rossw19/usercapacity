@@ -4,9 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"rosswilson/usercapacity/api"
+	"rosswilson/usercapacity/core"
 	"rosswilson/usercapacity/utility"
-	"time"
 
 	"github.com/joho/godotenv"
 )
@@ -14,15 +13,7 @@ import (
 func main() {
 	loadEnv()
 	initLogger(loggingStatus())
-
-	dates := utility.CreateDates(-21, time.Now())
-
-	everhourStrategy := api.CreateEverhourStrategy()
-	everhourStrategy.SetRequestUri(fmt.Sprintf("/team/time?from=%s&to=%s", dates.GetFrom(), dates.GetTo()))
-
-	apiContext := api.CreateApiContext()
-	apiContext.SetApiStrategy(everhourStrategy)
-	apiContext.ExecuteApi()
+	core.CreateCore().Run()
 }
 
 func loggingStatus() bool {
