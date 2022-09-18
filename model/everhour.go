@@ -8,7 +8,6 @@ import (
 type everhourUserModel struct {
 	stream    []byte
 	users     []user
-	modelType modelType
 	prototype *Model
 }
 
@@ -41,21 +40,15 @@ func (e everhourUserModel) GetPrototype() *Model {
 	return e.prototype
 }
 
-func (e everhourUserModel) getType() modelType {
-	return e.modelType
-}
-
 func CreateEverhourUserModel(data []byte) *everhourUserModel {
 	return &everhourUserModel{
-		stream:    data,
-		modelType: everhourUserType,
+		stream: data,
 	}
 }
 
 type everhourTimeModel struct {
 	stream    []byte
 	times     []time
-	modelType modelType
 	prototype *Model
 }
 
@@ -88,14 +81,9 @@ func (e everhourTimeModel) GetPrototype() *Model {
 	return e.prototype
 }
 
-func (e everhourTimeModel) getType() modelType {
-	return e.modelType
-}
-
 func CreateEverhourTimeModel(data []byte, model *Model) *everhourTimeModel {
 	return &everhourTimeModel{
 		stream:    data,
-		modelType: everhourTimeType,
 		prototype: model,
 	}
 }

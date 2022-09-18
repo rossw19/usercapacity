@@ -11,7 +11,7 @@ type everhourUserHandler struct {
 // Returns early so we can provide
 // contextual information for next step
 func (e everhourUserHandler) Handle(model Model) {
-	if model.getType() == everhourUserType {
+	if _, ok := model.(*everhourUserModel); ok {
 		model.buildModel()
 		return
 	}
@@ -32,7 +32,7 @@ type everhourTimeHandler struct {
 }
 
 func (e everhourTimeHandler) Handle(model Model) {
-	if model.getType() == everhourTimeType {
+	if _, ok := model.(*everhourTimeModel); ok {
 		model.buildModel()
 	}
 
@@ -52,7 +52,7 @@ type mathHandler struct {
 }
 
 func (m mathHandler) Handle(model Model) {
-	if model.getType() == mathType {
+	if _, ok := model.(*mathModel); ok {
 		model.buildModel()
 	}
 
@@ -72,7 +72,7 @@ type jiraHandler struct {
 }
 
 func (j jiraHandler) Handle(model Model) {
-	if model.getType() == jiraType {
+	if _, ok := model.(*jiraModel); ok {
 		model.buildModel()
 	}
 
