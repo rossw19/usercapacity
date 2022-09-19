@@ -64,7 +64,7 @@ func (l *Logger) SetActive(active bool) *Logger {
 	return l
 }
 
-func (l Logger) Write(line string) {
+func (l Logger) Write(line any) {
 	if l.active {
 		log.Println(line)
 		return

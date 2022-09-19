@@ -7,10 +7,11 @@ import (
 )
 
 type JiraStrategy struct {
-	url      string
-	username string
-	password string
-	encoded  string
+	url        string
+	username   string
+	password   string
+	encoded    string
+	requestUri string
 }
 
 func CreateJiraStrategy() *JiraStrategy {
@@ -36,4 +37,8 @@ func (j *JiraStrategy) processRequest() {
 
 func (j JiraStrategy) processResponse() []byte {
 	return make([]byte, 0)
+}
+
+func (e *JiraStrategy) SetRequestUri(requestUri string) {
+	e.requestUri = requestUri
 }

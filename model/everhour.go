@@ -33,7 +33,7 @@ func (e *everhourUserModel) buildModel() {
 		})
 	}
 
-	utility.GetLogger().Write("model: built everhourUserModel")
+	utility.GetLogger().Write("model: built everhourModel")
 }
 
 func (e everhourUserModel) GetPrototype() *Model {
@@ -81,9 +81,9 @@ func (e everhourTimeModel) GetPrototype() *Model {
 	return e.prototype
 }
 
-func CreateEverhourTimeModel(data []byte, model Model) *everhourTimeModel {
+func CreateEverhourTimeModel(data []byte, prototype Model) *everhourTimeModel {
 	return &everhourTimeModel{
 		stream:    data,
-		prototype: &model,
+		prototype: &prototype,
 	}
 }

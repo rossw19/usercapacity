@@ -25,4 +25,5 @@ type ApiStrategy interface {
 	execute()
 	processRequest()
 	processResponse() []byte
+	SetRequestUri(string)
 }

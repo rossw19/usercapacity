@@ -13,7 +13,7 @@ import (
 func main() {
 	loadEnv()
 	initLogger(loggingStatus())
-	core.CreateCore().Run()
+	core.Run()
 }
 
 func loggingStatus() bool {
