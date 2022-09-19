@@ -7,7 +7,7 @@ import (
 
 type everhourUserModel struct {
 	stream    []byte
-	users     map[int]string
+	users     map[int]user
 	prototype Model
 }
 
@@ -20,9 +20,11 @@ func (e *everhourUserModel) buildModel() {
 	var jsonUsers []jsonUser
 	json.Unmarshal(e.stream, &jsonUsers)
 
-	e.users = map[int]string{}
+	e.users = map[int]user{}
 	for _, j := range jsonUsers {
-		e.users[j.Id] = j.Name
+		e.users[j.Id] = user{
+			name: j.Name,
+		}
 	}
 
 	utility.GetLogger().Write("model: built everhourModel")
@@ -30,6 +32,10 @@ func (e *everhourUserModel) buildModel() {
 
 func (e everhourUserModel) GetPrototype() Model {
 	return e.prototype
+}
+
+func (e everhourUserModel) GetUsers() map[int]user {
+	return e.users
 }
 
 func CreateEverhourUserModel(data []byte) *everhourUserModel {
@@ -40,13 +46,8 @@ func CreateEverhourUserModel(data []byte) *everhourUserModel {
 
 type everhourTimeModel struct {
 	stream    []byte
-	times     map[int]time
-	prototype *everhourUserModel
-}
-
-type time struct {
-	name        string
-	trackedTime int
+	users     map[int]user
+	prototype Model
 }
 
 func (e *everhourTimeModel) buildModel() {
@@ -58,10 +59,10 @@ func (e *everhourTimeModel) buildModel() {
 	var jsonTimes []jsonTime
 	json.Unmarshal(e.stream, &jsonTimes)
 
-	e.times = map[int]time{}
+	e.users = map[int]user{}
 	for _, j := range jsonTimes {
-		e.times[j.Id] = time{
-			name:        e.prototype.users[j.Id],
+		e.users[j.Id] = user{
+			name:        e.users[j.Id].name, // Need to use interface method
 			trackedTime: j.Time,
 		}
 	}
@@ -73,7 +74,11 @@ func (e everhourTimeModel) GetPrototype() Model {
 	return e.prototype
 }
 
-func CreateEverhourTimeModel(data []byte, prototype *everhourUserModel) *everhourTimeModel {
+func (e everhourTimeModel) GetUsers() map[int]user {
+	return e.users
+}
+
+func CreateEverhourTimeModel(data []byte, prototype Model) *everhourTimeModel {
 	return &everhourTimeModel{
 		stream:    data,
 		prototype: prototype,
