@@ -27,7 +27,7 @@ func timeCall(context api.Context, everhourStrategy *api.EverhourStrategy) []byt
 
 func timeUri() string {
 	dates := utility.CreateDates(-21, time.Now())
-	return fmt.Sprintf("/dashboards/users?date_gte=%s&date_lte=%s", dates.GetFrom(), dates.GetTo())
+	return fmt.Sprintf("/dashboards/users?date_gte=%s&date_lte=%s", dates.GetTo(), dates.GetFrom())
 }
 
 func jiraCall(context api.Context, jiraStrategy *api.JiraStrategy) {

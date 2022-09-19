@@ -2,5 +2,5 @@ package model
 
 type Model interface {
 	buildModel()
-	GetPrototype() *Model
+	GetPrototype() Model
 }
