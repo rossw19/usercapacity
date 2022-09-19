@@ -9,8 +9,9 @@ import (
 func createModels(userResp []byte, timeResp []byte) []model.Model {
 	userModel := model.CreateEverhourUserModel(userResp)
 	timeModel := model.CreateEverhourTimeModel(timeResp, userModel)
+	mathModel := model.CreateMathModel(timeModel)
 
-	return []model.Model{userModel, timeModel}
+	return []model.Model{userModel, timeModel, mathModel}
 }
 
 func bubbleModel(models []model.Model) model.Model {
