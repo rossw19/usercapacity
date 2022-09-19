@@ -18,10 +18,12 @@ type EverhourStrategy struct {
 }
 
 func CreateEverhourStrategy() *EverhourStrategy {
+	config := utility.GetConfig().Env.Everhour
+
 	return &EverhourStrategy{
-		url:        utility.GetEnvOrExit("EVERHOUR_URL"),
-		authKey:    utility.GetEnvOrExit("EVERHOUR_AUTH_KEY"),
-		apiVersion: utility.GetEnvOrExit("EVERHOUR_API_VERSION"),
+		url:        config.Url,
+		authKey:    config.Auth,
+		apiVersion: config.Version,
 	}
 }
 

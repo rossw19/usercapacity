@@ -9,7 +9,7 @@ import (
 	"sync"
 )
 
-var lock = &sync.Mutex{}
+var loggerLock = &sync.Mutex{}
 
 type Logger struct {
 	active    bool
@@ -77,8 +77,8 @@ var loggerInstance *Logger
 
 func GetLogger() *Logger {
 	if loggerInstance == nil {
-		lock.Lock()
-		defer lock.Unlock()
+		loggerLock.Lock()
+		defer loggerLock.Unlock()
 
 		if loggerInstance == nil {
 			loggerInstance = &Logger{}

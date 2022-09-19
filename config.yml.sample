@@ -1,0 +1,10 @@
+env:
+  everhour:
+    url: "https://api.everhour.com"
+    auth: "abcd-efgh-1234567-7890ab-cdefgh12"
+    version: "1.2"
+  jira:
+    url: "https://id.atlassian.com/"
+    user: "username"
+    pass: "password"
+  logging: false

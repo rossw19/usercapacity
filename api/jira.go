@@ -15,10 +15,12 @@ type JiraStrategy struct {
 }
 
 func CreateJiraStrategy() *JiraStrategy {
+	config := utility.GetConfig().Env.Jira
+
 	return &JiraStrategy{
-		url:      utility.GetEnvOrExit("JIRA_URL"),
-		username: utility.GetEnvOrExit("JIRA_USERNAME"),
-		password: utility.GetEnvOrExit("JIRA_PASSWORD"),
+		url:      config.Url,
+		username: config.User,
+		password: config.Pass,
 	}
 }
 

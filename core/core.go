@@ -6,6 +6,8 @@ import (
 )
 
 func Run() {
+	loadUtilities()
+
 	apiContext := api.CreateApiContext()
 	everhourStrategy, _ := createStrategies(apiContext)
 
