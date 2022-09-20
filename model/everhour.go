@@ -59,10 +59,12 @@ func (e *everhourTimeModel) buildModel() {
 	var jsonTimes []jsonTime
 	json.Unmarshal(e.stream, &jsonTimes)
 
+	prototypeUsers := e.GetPrototype().GetUsers()
+
 	e.users = map[int]user{}
 	for _, j := range jsonTimes {
 		e.users[j.Id] = user{
-			name:        e.users[j.Id].name, // Need to use interface method
+			name:        prototypeUsers[j.Id].GetName(),
 			trackedTime: j.Time,
 		}
 	}

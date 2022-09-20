@@ -1,6 +1,8 @@
 package model
 
-import "rosswilson/usercapacity/utility"
+import (
+	"rosswilson/usercapacity/utility"
+)
 
 type mathModel struct {
 	users     map[int]user
