@@ -28,6 +28,11 @@ type Configuration struct {
 		}
 		Logging bool `yaml:"loggin"`
 	}
+	Period struct {
+		CalendarDays int `yaml:"calendarDays"`
+		WorkingDays  int `yaml:"WorkingDays"`
+		AverageOver  int `yaml:"averageOver"`
+	}
 }
 
 var configInstance *Configuration
