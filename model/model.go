@@ -2,7 +2,7 @@ package model
 
 type Modeler interface {
 	buildModel()
-	GetPrototype() Modeler
+	GetPrevious() Modeler
 	GetUsers() map[int]user
 }
 

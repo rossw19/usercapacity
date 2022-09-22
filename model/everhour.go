@@ -6,9 +6,9 @@ import (
 )
 
 type everhourUserModel struct {
-	stream    []byte
-	users     map[int]user
-	prototype Modeler
+	stream   []byte
+	users    map[int]user
+	previous Modeler
 }
 
 func (e *everhourUserModel) buildModel() {
@@ -30,8 +30,8 @@ func (e *everhourUserModel) buildModel() {
 	utility.GetLogger().Write("model: built everhourModel")
 }
 
-func (e everhourUserModel) GetPrototype() Modeler {
-	return e.prototype
+func (e everhourUserModel) GetPrevious() Modeler {
+	return e.previous
 }
 
 func (e everhourUserModel) GetUsers() map[int]user {
@@ -45,9 +45,9 @@ func CreateEverhourUserModel(data []byte) *everhourUserModel {
 }
 
 type everhourTimeModel struct {
-	stream    []byte
-	users     map[int]user
-	prototype Modeler
+	stream   []byte
+	users    map[int]user
+	previous Modeler
 }
 
 func (e *everhourTimeModel) buildModel() {
@@ -59,12 +59,12 @@ func (e *everhourTimeModel) buildModel() {
 	var jsonTimes []jsonTime
 	json.Unmarshal(e.stream, &jsonTimes)
 
-	prototypeUsers := e.GetPrototype().GetUsers()
+	previousUsers := e.GetPrevious().GetUsers()
 
 	e.users = map[int]user{}
 	for _, j := range jsonTimes {
 		e.users[j.Id] = user{
-			name:        prototypeUsers[j.Id].GetName(),
+			name:        previousUsers[j.Id].GetName(),
 			trackedTime: j.Time,
 		}
 	}
@@ -72,17 +72,17 @@ func (e *everhourTimeModel) buildModel() {
 	utility.GetLogger().Write("model: built everhourTimeModel")
 }
 
-func (e everhourTimeModel) GetPrototype() Modeler {
-	return e.prototype
+func (e everhourTimeModel) GetPrevious() Modeler {
+	return e.previous
 }
 
 func (e everhourTimeModel) GetUsers() map[int]user {
 	return e.users
 }
 
-func CreateEverhourTimeModel(data []byte, prototype Modeler) *everhourTimeModel {
+func CreateEverhourTimeModel(data []byte, previous Modeler) *everhourTimeModel {
 	return &everhourTimeModel{
-		stream:    data,
-		prototype: prototype,
+		stream:   data,
+		previous: previous,
 	}
 }
