@@ -8,7 +8,7 @@ import (
 type everhourUserModel struct {
 	stream    []byte
 	users     map[int]user
-	prototype Model
+	prototype Modeler
 }
 
 func (e *everhourUserModel) buildModel() {
@@ -30,7 +30,7 @@ func (e *everhourUserModel) buildModel() {
 	utility.GetLogger().Write("model: built everhourModel")
 }
 
-func (e everhourUserModel) GetPrototype() Model {
+func (e everhourUserModel) GetPrototype() Modeler {
 	return e.prototype
 }
 
@@ -47,7 +47,7 @@ func CreateEverhourUserModel(data []byte) *everhourUserModel {
 type everhourTimeModel struct {
 	stream    []byte
 	users     map[int]user
-	prototype Model
+	prototype Modeler
 }
 
 func (e *everhourTimeModel) buildModel() {
@@ -72,7 +72,7 @@ func (e *everhourTimeModel) buildModel() {
 	utility.GetLogger().Write("model: built everhourTimeModel")
 }
 
-func (e everhourTimeModel) GetPrototype() Model {
+func (e everhourTimeModel) GetPrototype() Modeler {
 	return e.prototype
 }
 
@@ -80,7 +80,7 @@ func (e everhourTimeModel) GetUsers() map[int]user {
 	return e.users
 }
 
-func CreateEverhourTimeModel(data []byte, prototype Model) *everhourTimeModel {
+func CreateEverhourTimeModel(data []byte, prototype Modeler) *everhourTimeModel {
 	return &everhourTimeModel{
 		stream:    data,
 		prototype: prototype,

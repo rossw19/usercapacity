@@ -1,27 +1,27 @@
 package api
 
-type Context interface {
-	SetApiStrategy(ApiStrategy)
+type Contexter interface {
+	SetApiStrategy(Strategizer)
 	ExecuteApi()
 }
 
-type ApiContext struct {
-	apiStrategy ApiStrategy
+type Context struct {
+	apiStrategy Strategizer
 }
 
-func CreateApiContext() *ApiContext {
-	return &ApiContext{}
+func CreateApiContext() *Context {
+	return &Context{}
 }
 
-func (a *ApiContext) SetApiStrategy(apiStrategy ApiStrategy) {
+func (a *Context) SetApiStrategy(apiStrategy Strategizer) {
 	a.apiStrategy = apiStrategy
 }
 
-func (a ApiContext) ExecuteApi() {
+func (a Context) ExecuteApi() {
 	a.apiStrategy.execute()
 }
 
-type ApiStrategy interface {
+type Strategizer interface {
 	execute()
 	processRequest()
 	processResponse() []byte

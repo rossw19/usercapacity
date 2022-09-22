@@ -4,11 +4,11 @@ import "errors"
 
 type ModelHandler interface {
 	Handle() ModelHandler
-	Add(model Model)
+	Add(model Modeler)
 }
 
 type handler struct {
-	models []Model
+	models []Modeler
 }
 
 func (h handler) Handle() *handler {
@@ -19,11 +19,11 @@ func (h handler) Handle() *handler {
 	return &h
 }
 
-func (h *handler) Add(model Model) {
+func (h *handler) Add(model Modeler) {
 	h.models = append(h.models, model)
 }
 
-func (h handler) GetLastModel() (Model, error) {
+func (h handler) GetLastModel() (Modeler, error) {
 	if len(h.models) == 0 {
 		return nil, errors.New("model: no models present")
 	}
@@ -31,7 +31,7 @@ func (h handler) GetLastModel() (Model, error) {
 	return h.models[len(h.models)-1], nil
 }
 
-func CreateHandler(models []Model) *handler {
+func CreateHandler(models []Modeler) *handler {
 	return &handler{
 		models: models,
 	}

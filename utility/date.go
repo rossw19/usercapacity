@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-type DateSpan interface {
+type Dater interface {
 	getFrom() string
 	getTo() string
 }

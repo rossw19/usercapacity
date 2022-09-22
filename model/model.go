@@ -1,8 +1,8 @@
 package model
 
-type Model interface {
+type Modeler interface {
 	buildModel()
-	GetPrototype() Model
+	GetPrototype() Modeler
 	GetUsers() map[int]user
 }
 

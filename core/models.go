@@ -6,15 +6,15 @@ import (
 	"rosswilson/usercapacity/utility"
 )
 
-func createModels(userResp []byte, timeResp []byte) []model.Model {
+func createModels(userResp []byte, timeResp []byte) []model.Modeler {
 	userModel := model.CreateEverhourUserModel(userResp)
 	timeModel := model.CreateEverhourTimeModel(timeResp, userModel)
 	mathModel := model.CreateMathModel(timeModel)
 
-	return []model.Model{userModel, timeModel, mathModel}
+	return []model.Modeler{userModel, timeModel, mathModel}
 }
 
-func bubbleModel(models []model.Model) model.Model {
+func bubbleModel(models []model.Modeler) model.Modeler {
 	handler := model.CreateHandler(models)
 	model, err := handler.Handle().GetLastModel()
 

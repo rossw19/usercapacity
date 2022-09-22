@@ -6,7 +6,7 @@ import (
 
 type mathModel struct {
 	users     map[int]user
-	prototype Model
+	prototype Modeler
 }
 
 func (m *mathModel) buildModel() {
@@ -23,7 +23,7 @@ func (m *mathModel) buildModel() {
 	utility.GetLogger().Write("model: built mathModel")
 }
 
-func (m mathModel) GetPrototype() Model {
+func (m mathModel) GetPrototype() Modeler {
 	return m.prototype
 }
 
@@ -31,7 +31,7 @@ func (e mathModel) GetUsers() map[int]user {
 	return e.users
 }
 
-func CreateMathModel(prototype Model) *mathModel {
+func CreateMathModel(prototype Modeler) *mathModel {
 	return &mathModel{
 		prototype: prototype,
 	}
