@@ -38,9 +38,10 @@ func (e everhourUserModel) GetUsers() map[int]user {
 	return e.users
 }
 
-func CreateEverhourUserModel(data []byte) *everhourUserModel {
+func CreateEverhourUserModel(previous Modeler, data []byte) *everhourUserModel {
 	return &everhourUserModel{
-		stream: data,
+		previous: previous,
+		stream:   data,
 	}
 }
 
@@ -80,9 +81,9 @@ func (e everhourTimeModel) GetUsers() map[int]user {
 	return e.users
 }
 
-func CreateEverhourTimeModel(data []byte, previous Modeler) *everhourTimeModel {
+func CreateEverhourTimeModel(previous Modeler, data []byte) *everhourTimeModel {
 	return &everhourTimeModel{
-		stream:   data,
 		previous: previous,
+		stream:   data,
 	}
 }

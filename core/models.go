@@ -7,8 +7,8 @@ import (
 )
 
 func createModels(userResp []byte, timeResp []byte) []model.Modeler {
-	userModel := model.CreateEverhourUserModel(userResp)
-	timeModel := model.CreateEverhourTimeModel(timeResp, userModel)
+	userModel := model.CreateEverhourUserModel(nil, userResp)
+	timeModel := model.CreateEverhourTimeModel(userModel, timeResp)
 	mathModel := model.CreateMathModel(timeModel)
 
 	return []model.Modeler{userModel, timeModel, mathModel}
