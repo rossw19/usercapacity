@@ -10,8 +10,9 @@ func createModels(userResp []byte, timeResp []byte, clock utility.Clocker) []mod
 	userModel := model.CreateEverhourUserModel(nil, userResp)
 	timeModel := model.CreateEverhourTimeModel(userModel, timeResp)
 	mathModel := model.CreateMathModel(timeModel, clock)
+	filterModel := model.CreateFilterModel(mathModel)
 
-	return []model.Modeler{userModel, timeModel, mathModel}
+	return []model.Modeler{userModel, timeModel, mathModel, filterModel}
 }
 
 func bubbleModel(models []model.Modeler) model.Modeler {

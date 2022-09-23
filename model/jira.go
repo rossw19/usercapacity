@@ -15,8 +15,8 @@ func (j jiraModel) GetPrevious() Modeler {
 	return j.previous
 }
 
-func (e jiraModel) GetUsers() map[int]user {
-	return e.users
+func (j jiraModel) GetUsers() map[int]user {
+	return j.users
 }
 
 func CreateJiraModel(previous Modeler) *jiraModel {

@@ -28,8 +28,8 @@ func (m mathModel) GetPrevious() Modeler {
 	return m.previous
 }
 
-func (e mathModel) GetUsers() map[int]user {
-	return e.users
+func (m mathModel) GetUsers() map[int]user {
+	return m.users
 }
 
 func CreateMathModel(previous Modeler, clock utility.Clocker) *mathModel {

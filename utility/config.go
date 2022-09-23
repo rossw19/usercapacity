@@ -28,6 +28,12 @@ type Configuration struct {
 		}
 		Logging bool `yaml:"loggin"`
 	}
+	Mapping struct {
+		Users []struct {
+			Id   int    `yaml:",flow"`
+			Name string `yaml:",flow"`
+		}
+	}
 	Period struct {
 		CalendarDays int `yaml:"calendarDays"`
 		WorkingDays  int `yaml:"WorkingDays"`

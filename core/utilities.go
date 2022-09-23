@@ -1,6 +1,8 @@
 package core
 
-import "rosswilson/usercapacity/utility"
+import (
+	"rosswilson/usercapacity/utility"
+)
 
 func loadUtilities() {
 	utility.GetConfig().ReadConfig()
