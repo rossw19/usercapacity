@@ -6,10 +6,10 @@ import (
 	"rosswilson/usercapacity/utility"
 )
 
-func createModels(userResp []byte, timeResp []byte) []model.Modeler {
+func createModels(userResp []byte, timeResp []byte, clock utility.Clocker) []model.Modeler {
 	userModel := model.CreateEverhourUserModel(nil, userResp)
 	timeModel := model.CreateEverhourTimeModel(userModel, timeResp)
-	mathModel := model.CreateMathModel(timeModel)
+	mathModel := model.CreateMathModel(timeModel, clock)
 
 	return []model.Modeler{userModel, timeModel, mathModel}
 }

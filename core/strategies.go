@@ -18,15 +18,16 @@ func userCall(context api.Contexter, everhourStrategy *api.EverhourStrategy) []b
 	return everhourStrategy.GetResponseBody()
 }
 
-func timeCall(context api.Contexter, everhourStrategy *api.EverhourStrategy) []byte {
-	everhourStrategy.SetRequestUri(timeUri())
+func timeCall(context api.Contexter, everhourStrategy *api.EverhourStrategy, clock utility.Clocker) []byte {
+	everhourStrategy.SetRequestUri(timeUri(clock))
 	context.SetApiStrategy(everhourStrategy)
 	context.ExecuteApi()
 	return everhourStrategy.GetResponseBody()
 }
 
-func timeUri() string {
-	dates := utility.CreateDates(-21, time.Now())
+func timeUri(clock utility.Clocker) string {
+	days := -1 * clock.GetCalendarDays() * clock.GetAverageOver()
+	dates := utility.CreateDates(int64(days), time.Now())
 	return fmt.Sprintf("/dashboards/users?date_gte=%s&date_lte=%s", dates.GetTo(), dates.GetFrom())
 }
 

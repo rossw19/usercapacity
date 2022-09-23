@@ -7,6 +7,7 @@ import (
 type mathModel struct {
 	users    map[int]user
 	previous Modeler
+	clock    utility.Clocker
 }
 
 func (m *mathModel) buildModel() {
@@ -16,7 +17,7 @@ func (m *mathModel) buildModel() {
 		m.users[i] = user{
 			name:        t.GetName(),
 			trackedTime: t.GetTimeTracked(),
-			averageTime: t.GetTimeTracked() / 3,
+			averageTime: t.GetTimeTracked() / m.clock.GetAverageOver(),
 		}
 	}
 
@@ -31,8 +32,9 @@ func (e mathModel) GetUsers() map[int]user {
 	return e.users
 }
 
-func CreateMathModel(previous Modeler) *mathModel {
+func CreateMathModel(previous Modeler, clock utility.Clocker) *mathModel {
 	return &mathModel{
 		previous: previous,
+		clock:    clock,
 	}
 }
