@@ -153,3 +153,9 @@ dist
 
 # MacOS
 .DS_Store
+
+# Random scripting files
+tmp
+
+# Idea
+.idea

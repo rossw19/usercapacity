@@ -5,6 +5,19 @@ env:
     version: "1.2"
   jira:
     url: "https://id.atlassian.com/"
-    user: "username"
-    pass: "password"
+    email: "test@gmail.com"
+    auth: "6r8ywgbt3prik3tebpdttkg8"
+  schedule:
+    url: "https://api.scheduleleave.com"
   logging: false
+
+mapping:
+  users:
+    - everhourId: 0019981
+      jiraId: "z46ftzgcv2x528r7hbuuycu3"
+      name: "John Smith"
+
+period:
+  calendarDays: 7
+  workingDays: 5
+  averageOver: 3

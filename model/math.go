@@ -4,14 +4,14 @@ import (
 	"rosswilson/usercapacity/utility"
 )
 
-type mathModel struct {
-	users    map[int]user
+type MathModel struct {
+	users    map[int]User
 	previous Modeler
 	clock    utility.Clocker
 }
 
-func (m *mathModel) buildModel() {
-	m.users = map[int]user{}
+func (m *MathModel) buildModel() {
+	m.users = map[int]User{}
 
 	for i, t := range m.previous.GetUsers() {
 		m.users[i] = user{
@@ -21,19 +21,19 @@ func (m *mathModel) buildModel() {
 		}
 	}
 
-	utility.GetLogger().Write("model: built mathModel")
+	utility.GetLogger().Write("model: built MathModel")
 }
 
-func (m mathModel) GetPrevious() Modeler {
+func (m *MathModel) GetPrevious() Modeler {
 	return m.previous
 }
 
-func (m mathModel) GetUsers() map[int]user {
+func (m *MathModel) GetUsers() map[int]User {
 	return m.users
 }
 
-func CreateMathModel(previous Modeler, clock utility.Clocker) *mathModel {
-	return &mathModel{
+func CreateMathModel(previous Modeler, clock utility.Clocker) *MathModel {
+	return &MathModel{
 		previous: previous,
 		clock:    clock,
 	}

@@ -22,7 +22,7 @@ func (d Dates) GetTo() string {
 	return d.to
 }
 
-// Offset is number of days from timestamp
+// CreateDates Offset is number of days from timestamp
 func CreateDates(offset int64, timestamp time.Time) *Dates {
 	secondsOffset := offset * 86400
 	newUnixTime := timestamp.Unix() + secondsOffset

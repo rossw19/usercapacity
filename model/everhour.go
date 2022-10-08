@@ -5,13 +5,13 @@ import (
 	"rosswilson/usercapacity/utility"
 )
 
-type everhourUserModel struct {
+type EverhourUserModel struct {
 	stream   []byte
-	users    map[int]user
+	users    map[int]User
 	previous Modeler
 }
 
-func (e *everhourUserModel) buildModel() {
+func (e *EverhourUserModel) buildModel() {
 	type jsonUser struct {
 		Id   int    `json:"id"`
 		Name string `json:"name"`
@@ -20,7 +20,7 @@ func (e *everhourUserModel) buildModel() {
 	var jsonUsers []jsonUser
 	json.Unmarshal(e.stream, &jsonUsers)
 
-	e.users = map[int]user{}
+	e.users = map[int]User{}
 	for _, j := range jsonUsers {
 		e.users[j.Id] = user{
 			name: j.Name,
@@ -30,28 +30,28 @@ func (e *everhourUserModel) buildModel() {
 	utility.GetLogger().Write("model: built everhourModel")
 }
 
-func (e everhourUserModel) GetPrevious() Modeler {
+func (e *EverhourUserModel) GetPrevious() Modeler {
 	return e.previous
 }
 
-func (e everhourUserModel) GetUsers() map[int]user {
+func (e *EverhourUserModel) GetUsers() map[int]User {
 	return e.users
 }
 
-func CreateEverhourUserModel(previous Modeler, data []byte) *everhourUserModel {
-	return &everhourUserModel{
+func CreateEverhourUserModel(previous Modeler, data []byte) *EverhourUserModel {
+	return &EverhourUserModel{
 		previous: previous,
 		stream:   data,
 	}
 }
 
-type everhourTimeModel struct {
+type EverhourTimeModel struct {
 	stream   []byte
-	users    map[int]user
+	users    map[int]User
 	previous Modeler
 }
 
-func (e *everhourTimeModel) buildModel() {
+func (e *EverhourTimeModel) buildModel() {
 	type jsonTime struct {
 		Id   int `json:"memberId"`
 		Time int `json:"time"`
@@ -62,7 +62,7 @@ func (e *everhourTimeModel) buildModel() {
 
 	previousUsers := e.GetPrevious().GetUsers()
 
-	e.users = map[int]user{}
+	e.users = map[int]User{}
 	for _, j := range jsonTimes {
 		e.users[j.Id] = user{
 			name:        previousUsers[j.Id].GetName(),
@@ -70,19 +70,19 @@ func (e *everhourTimeModel) buildModel() {
 		}
 	}
 
-	utility.GetLogger().Write("model: built everhourTimeModel")
+	utility.GetLogger().Write("model: built EverhourTimeModel")
 }
 
-func (e everhourTimeModel) GetPrevious() Modeler {
+func (e *EverhourTimeModel) GetPrevious() Modeler {
 	return e.previous
 }
 
-func (e everhourTimeModel) GetUsers() map[int]user {
+func (e *EverhourTimeModel) GetUsers() map[int]User {
 	return e.users
 }
 
-func CreateEverhourTimeModel(previous Modeler, data []byte) *everhourTimeModel {
-	return &everhourTimeModel{
+func CreateEverhourTimeModel(previous Modeler, data []byte) *EverhourTimeModel {
+	return &EverhourTimeModel{
 		previous: previous,
 		stream:   data,
 	}

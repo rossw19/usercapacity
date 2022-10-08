@@ -1,15 +1,12 @@
-package core
+package internal
 
 import (
 	"fmt"
 	"rosswilson/usercapacity/api"
+	"rosswilson/usercapacity/model"
 	"rosswilson/usercapacity/utility"
 	"time"
 )
-
-func createStrategies(context api.Contexter) (*api.EverhourStrategy, *api.JiraStrategy) {
-	return api.CreateEverhourStrategy(), api.CreateJiraStrategy()
-}
 
 func userCall(context api.Contexter, everhourStrategy *api.EverhourStrategy) []byte {
 	everhourStrategy.SetRequestUri("/team/users")
@@ -31,8 +28,24 @@ func timeUri(clock utility.Clocker) string {
 	return fmt.Sprintf("/dashboards/users?date_gte=%s&date_lte=%s", dates.GetTo(), dates.GetFrom())
 }
 
-func jiraCall(context api.Contexter, jiraStrategy *api.JiraStrategy) {
-	jiraStrategy.SetRequestUri("")
+func jiraCall(context api.Contexter, jiraStrategy *api.JiraStrategy, requestUri string) {
+	jiraStrategy.SetRequestUri(requestUri)
 	context.SetApiStrategy(jiraStrategy)
 	context.ExecuteApi()
+}
+
+func createJiraStrategies(users map[int]model.User) []api.JiraStrategy {
+	var strategies []api.JiraStrategy
+	for _, u := range users {
+		strategy := api.CreateJiraStrategy(u)
+		strategies = append(strategies, *strategy)
+	}
+
+	return strategies
+}
+
+func jiraCalls(context api.Contexter, jiraStrategies []api.JiraStrategy) {
+	for _, u := range jiraStrategies {
+		jiraCall(context, &u, "/rest/api/3/user/properties/capacity?accountId=")
+	}
 }

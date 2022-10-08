@@ -1,9 +1,9 @@
 package main
 
 import (
-	"rosswilson/usercapacity/core"
+	"rosswilson/usercapacity/internal"
 )
 
 func main() {
-	core.Run()
+	internal.Run()
 }

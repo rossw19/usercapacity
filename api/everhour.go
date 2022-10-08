@@ -44,7 +44,7 @@ func (e *EverhourStrategy) processRequest() {
 	e.request = req
 }
 
-func (e EverhourStrategy) processResponse() []byte {
+func (e *EverhourStrategy) processResponse() []byte {
 	client := &http.Client{}
 	resp, err := client.Do(e.request)
 	if err != nil {
@@ -55,7 +55,7 @@ func (e EverhourStrategy) processResponse() []byte {
 	defer resp.Body.Close()
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		utility.GetLogger().Write("api: could not read body of request")
+		utility.GetLogger().Write("api: could not read body of response")
 		os.Exit(1)
 	}
 
@@ -66,6 +66,6 @@ func (e *EverhourStrategy) SetRequestUri(requestUri string) {
 	e.requestUri = requestUri
 }
 
-func (e EverhourStrategy) GetResponseBody() []byte {
+func (e *EverhourStrategy) GetResponseBody() []byte {
 	return e.responseBody
 }

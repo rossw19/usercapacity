@@ -17,13 +17,11 @@ func (a *Context) SetApiStrategy(apiStrategy Strategizer) {
 	a.apiStrategy = apiStrategy
 }
 
-func (a Context) ExecuteApi() {
+func (a *Context) ExecuteApi() {
 	a.apiStrategy.execute()
 }
 
 type Strategizer interface {
 	execute()
-	processRequest()
-	processResponse() []byte
 	SetRequestUri(string)
 }

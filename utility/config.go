@@ -14,6 +14,12 @@ type Config interface {
 	ReadConfig() Config
 }
 
+type ConfigUser struct {
+	EverhourId int    `yaml:"everhourId"`
+	JiraId     string `yaml:"jiraId"`
+	Name       string `yaml:"name"`
+}
+
 type Configuration struct {
 	Env struct {
 		Everhour struct {
@@ -22,17 +28,17 @@ type Configuration struct {
 			Version string `yaml:"version"`
 		}
 		Jira struct {
-			Url  string `yaml:"url"`
-			User string `yaml:"user"`
-			Pass string `yaml:"pass"`
+			Url   string `yaml:"url"`
+			Email string `yaml:"email"`
+			Auth  string `yaml:"auth"`
 		}
-		Logging bool `yaml:"loggin"`
+		Schedule struct {
+			Url string `yaml:"url"`
+		}
+		Logging bool `yaml:"logging"`
 	}
 	Mapping struct {
-		Users []struct {
-			Id   int    `yaml:",flow"`
-			Name string `yaml:",flow"`
-		}
+		Users []ConfigUser `yaml:"users"`
 	}
 	Period struct {
 		CalendarDays int `yaml:"calendarDays"`

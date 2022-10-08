@@ -7,23 +7,23 @@ type ModelHandler interface {
 	Add(model Modeler)
 }
 
-type handler struct {
+type Handler struct {
 	models []Modeler
 }
 
-func (h handler) Handle() *handler {
+func (h *Handler) Handle() *Handler {
 	for _, m := range h.models {
 		m.buildModel()
 	}
 
-	return &h
+	return h
 }
 
-func (h *handler) Add(model Modeler) {
+func (h *Handler) Add(model Modeler) {
 	h.models = append(h.models, model)
 }
 
-func (h handler) GetLastModel() (Modeler, error) {
+func (h *Handler) GetLastModel() (Modeler, error) {
 	if len(h.models) == 0 {
 		return nil, errors.New("model: no models present")
 	}
@@ -31,8 +31,8 @@ func (h handler) GetLastModel() (Modeler, error) {
 	return h.models[len(h.models)-1], nil
 }
 
-func CreateHandler(models []Modeler) *handler {
-	return &handler{
+func CreateHandler(models []Modeler) *Handler {
+	return &Handler{
 		models: models,
 	}
 }

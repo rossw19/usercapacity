@@ -1,7 +1,6 @@
-package core
+package internal
 
 import (
-	"fmt"
 	"rosswilson/usercapacity/api"
 	"rosswilson/usercapacity/utility"
 )
@@ -11,7 +10,7 @@ func Run() {
 
 	clock := utility.CreateClock()
 	apiContext := api.CreateApiContext()
-	everhourStrategy, _ := createStrategies(apiContext)
+	everhourStrategy := api.CreateEverhourStrategy()
 
 	userData := make(chan []byte)
 	go func() {
@@ -23,5 +22,6 @@ func Run() {
 	models := createModels(<-userData, timeData, clock)
 	model := bubbleModel(models)
 
-	fmt.Printf("%+v", model)
+	jiraStrategies := createJiraStrategies(model.GetUsers())
+	jiraCalls(apiContext, jiraStrategies)
 }

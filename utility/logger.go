@@ -35,7 +35,7 @@ func (l *Logger) SetFile(filename string) *Logger {
 	return l
 }
 
-func (l Logger) createOrOpenFile(chmod fs.FileMode) (*os.File, error) {
+func (l *Logger) createOrOpenFile(chmod fs.FileMode) (*os.File, error) {
 	if err := os.MkdirAll(l.fileparts.path, chmod); err != nil {
 		return nil, err
 	}
@@ -64,7 +64,7 @@ func (l *Logger) SetActive(active bool) *Logger {
 	return l
 }
 
-func (l Logger) Write(line any) {
+func (l *Logger) Write(line any) {
 	if l.active {
 		log.Println(line)
 		return

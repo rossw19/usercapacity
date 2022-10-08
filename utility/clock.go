@@ -10,26 +10,26 @@ type Clocker interface {
 	GetAverageOver() int
 }
 
-type clock struct {
+type Clock struct {
 	calendarDays int
 	workingDays  int
 	averageOver  int
 }
 
-func (c clock) GetCalendarDays() int {
+func (c Clock) GetCalendarDays() int {
 	return c.calendarDays
 }
 
-func (c clock) GetWorkingDays() int {
+func (c Clock) GetWorkingDays() int {
 	return c.workingDays
 }
 
-func (c clock) GetAverageOver() int {
+func (c Clock) GetAverageOver() int {
 	return c.averageOver
 }
 
-func CreateClock() *clock {
-	return &clock{
+func CreateClock() *Clock {
+	return &Clock{
 		calendarDays: GetConfig().Period.CalendarDays,
 		workingDays:  GetConfig().Period.WorkingDays,
 		averageOver:  GetConfig().Period.AverageOver,

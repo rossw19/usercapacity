@@ -1,38 +1,40 @@
 package model
 
-import "rosswilson/usercapacity/utility"
+import (
+	"rosswilson/usercapacity/utility"
+)
 
-type filterModel struct {
-	users    map[int]user
+type FilterModel struct {
+	users    map[int]User
 	previous Modeler
 }
 
-func (f *filterModel) buildModel() {
+func (f *FilterModel) buildModel() {
 	targetUsers := utility.GetConfig().Mapping.Users
 	previousUsers := f.GetPrevious().GetUsers()
 
-	f.users = map[int]user{}
+	f.users = map[int]User{}
 	for _, t := range targetUsers {
-		f.users[t.Id] = user{
-			name:        previousUsers[t.Id].GetName(),
-			trackedTime: previousUsers[t.Id].GetTimeTracked(),
-			averageTime: previousUsers[t.Id].GetAvgTime(),
+		f.users[t.EverhourId] = user{
+			name:        previousUsers[t.EverhourId].GetName(),
+			trackedTime: previousUsers[t.EverhourId].GetTimeTracked(),
+			averageTime: previousUsers[t.EverhourId].GetAvgTime(),
 		}
 	}
 
-	utility.GetLogger().Write("model: built filterModel")
+	utility.GetLogger().Write("model: built FilterModel")
 }
 
-func (f filterModel) GetPrevious() Modeler {
+func (f *FilterModel) GetPrevious() Modeler {
 	return f.previous
 }
 
-func (f filterModel) GetUsers() map[int]user {
+func (f *FilterModel) GetUsers() map[int]User {
 	return f.users
 }
 
-func CreateFilterModel(previous Modeler) *filterModel {
-	return &filterModel{
+func CreateFilterModel(previous Modeler) *FilterModel {
+	return &FilterModel{
 		previous: previous,
 	}
 }
