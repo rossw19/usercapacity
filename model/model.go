@@ -11,6 +11,8 @@ type User interface {
 	GetTimeTracked() int
 	GetAvgTime() int
 	GetJiraId() string
+	GetDaysHadOff() int
+	GetDaysHaveOff() int
 }
 
 type user struct {
@@ -18,6 +20,8 @@ type user struct {
 	trackedTime int
 	averageTime int
 	jiraId      string
+	daysHadOff  int
+	daysHaveOff int
 }
 
 func (u user) GetName() string {
@@ -34,4 +38,12 @@ func (u user) GetAvgTime() int {
 
 func (u user) GetJiraId() string {
 	return u.jiraId
+}
+
+func (u user) GetDaysHadOff() int {
+	return u.daysHadOff
+}
+
+func (u user) GetDaysHaveOff() int {
+	return u.daysHaveOff
 }

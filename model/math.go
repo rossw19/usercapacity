@@ -13,11 +13,15 @@ type MathModel struct {
 func (m *MathModel) buildModel() {
 	m.users = map[int]User{}
 
-	for i, t := range m.previous.GetUsers() {
+	for i, t := range m.GetPrevious().GetUsers() {
+		averageTime := m.calculateAverageTime(t.GetTimeTracked(), t.GetDaysHadOff(), t.GetDaysHaveOff())
+
 		m.users[i] = user{
 			name:        t.GetName(),
 			trackedTime: t.GetTimeTracked(),
-			averageTime: t.GetTimeTracked() / m.clock.GetAverageOver(),
+			averageTime: averageTime,
+			daysHadOff:  t.GetDaysHadOff(),
+			daysHaveOff: t.GetDaysHaveOff(),
 		}
 	}
 
@@ -37,4 +41,12 @@ func CreateMathModel(previous Modeler, clock utility.Clocker) *MathModel {
 		previous: previous,
 		clock:    clock,
 	}
+}
+
+// Works out how much time a user
+// should be working the following period
+func (m *MathModel) calculateAverageTime(timeTracked int, daysHadOff int, daysHaveOff int) int {
+	workingDaysOverPeriod := m.clock.GetAverageOver() * m.clock.GetWorkingDays()
+	averageTimeWorkedPerDay := timeTracked / (workingDaysOverPeriod - daysHadOff)
+	return averageTimeWorkedPerDay * (m.clock.GetWorkingDays() - daysHaveOff)
 }

@@ -42,7 +42,7 @@ type Configuration struct {
 	}
 	Period struct {
 		CalendarDays int `yaml:"calendarDays"`
-		WorkingDays  int `yaml:"WorkingDays"`
+		WorkingDays  int `yaml:"workingDays"`
 		AverageOver  int `yaml:"averageOver"`
 	}
 }

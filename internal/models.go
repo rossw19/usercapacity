@@ -6,14 +6,16 @@ import (
 	"rosswilson/usercapacity/utility"
 )
 
-func createModels(userResp []byte, timeResp []byte, clock utility.Clocker) []model.Modeler {
+// Models that hold a reference to previous model
+func createModels(userResp []byte, timeResp []byte, scheduleResp []byte, clock utility.Clocker) []model.Modeler {
 	userModel := model.CreateEverhourUserModel(nil, userResp)
 	timeModel := model.CreateEverhourTimeModel(userModel, timeResp)
-	mathModel := model.CreateMathModel(timeModel, clock)
+	vacationModel := model.CreateVacationModel(timeModel, scheduleResp, clock)
+	mathModel := model.CreateMathModel(vacationModel, clock)
 	filterModel := model.CreateFilterModel(mathModel)
 	jiraModel := model.CreateJiraModel(filterModel)
 
-	return []model.Modeler{userModel, timeModel, mathModel, filterModel, jiraModel}
+	return []model.Modeler{userModel, timeModel, vacationModel, mathModel, filterModel, jiraModel}
 }
 
 func bubbleModel(models []model.Modeler) model.Modeler {
