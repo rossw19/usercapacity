@@ -49,3 +49,10 @@ func jiraCalls(context api.Contexter, jiraStrategies []api.JiraStrategy) {
 		jiraCall(context, &u, "/rest/api/3/user/properties/capacity?accountId=")
 	}
 }
+
+func scheduleLeaveCall(context api.Contexter, scheduleStrategy *api.FileStrategy) []byte {
+	scheduleStrategy.SetRequestUri("***REMOVED***")
+	context.SetApiStrategy(scheduleStrategy)
+	context.ExecuteApi()
+	return scheduleStrategy.GetFileContents()
+}

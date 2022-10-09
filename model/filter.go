@@ -19,6 +19,8 @@ func (f *FilterModel) buildModel() {
 			name:        previousUsers[t.EverhourId].GetName(),
 			trackedTime: previousUsers[t.EverhourId].GetTimeTracked(),
 			averageTime: previousUsers[t.EverhourId].GetAvgTime(),
+			daysHadOff:  previousUsers[t.EverhourId].GetDaysHadOff(),
+			daysHaveOff: previousUsers[t.EverhourId].GetDaysHaveOff(),
 		}
 	}
 
