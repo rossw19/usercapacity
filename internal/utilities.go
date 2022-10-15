@@ -36,7 +36,6 @@ func loggingStatus() bool {
 }
 
 func initLogger(loggingStatus bool) {
-	logger := utility.GetLogger()
-	logger.SetFile("var/log/debug.log")
-	logger.SetActive(loggingStatus)
+	logger := utility.CreateLogger()
+	utility.GetLogger().SetLogger(logger).SetFile("var/log/debug.log").SetActive(loggingStatus)
 }

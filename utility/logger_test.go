@@ -5,7 +5,7 @@ import (
 )
 
 func TestSplitFileParts(t *testing.T) {
-	logger := GetLogger()
+	logger := CreateLogger()
 	logger.fileparts.file = "var/log/debug.log"
 	logger.splitFileparts()
 
