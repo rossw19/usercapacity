@@ -10,17 +10,19 @@ type FilterModel struct {
 }
 
 func (f *FilterModel) buildModel() {
-	targetUsers := utility.GetConfig().Mapping.Users
+	targetUsers := utility.GetConfigProxy().GetUsers()
 	previousUsers := f.GetPrevious().GetUsers()
 
 	f.users = map[int]User{}
 	for _, t := range targetUsers {
-		f.users[t.EverhourId] = user{
-			name:        previousUsers[t.EverhourId].GetName(),
-			trackedTime: previousUsers[t.EverhourId].GetTimeTracked(),
-			averageTime: previousUsers[t.EverhourId].GetAvgTime(),
-			daysHadOff:  previousUsers[t.EverhourId].GetDaysHadOff(),
-			daysHaveOff: previousUsers[t.EverhourId].GetDaysHaveOff(),
+		id := t.GetEverhourId()
+
+		f.users[id] = user{
+			name:        previousUsers[id].GetName(),
+			trackedTime: previousUsers[id].GetTimeTracked(),
+			averageTime: previousUsers[id].GetAvgTime(),
+			daysHadOff:  previousUsers[id].GetDaysHadOff(),
+			daysHaveOff: previousUsers[id].GetDaysHaveOff(),
 		}
 	}
 

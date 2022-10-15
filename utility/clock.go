@@ -4,6 +4,12 @@ import (
 	"fmt"
 )
 
+const (
+	defaultCalendarDays = 7
+	defaultWorkingDays  = 5
+	defaultAverageOver  = 3
+)
+
 type Clocker interface {
 	GetCalendarDays() int
 	GetWorkingDays() int
@@ -29,10 +35,30 @@ func (c Clock) GetAverageOver() int {
 }
 
 func CreateClock() *Clock {
+	config := GetConfigProxy()
+
+	calendarDays, ok := config.GetScope("application_context_calendar_days").ResolveInt()
+	if !ok {
+		calendarDays = defaultCalendarDays
+		GetLogger().Write(fmt.Errorf("api: could not resolve application_context_calendar_days, using %d", calendarDays))
+	}
+
+	workingDays, ok := config.GetScope("application_context_working_days").ResolveInt()
+	if !ok {
+		workingDays = defaultWorkingDays
+		GetLogger().Write(fmt.Errorf("api: could not resolve application_context_working_days, using %d", workingDays))
+	}
+
+	averageOver, ok := config.GetScope("application_context_average_over").ResolveInt()
+	if !ok {
+		averageOver = defaultAverageOver
+		GetLogger().Write(fmt.Errorf("api: could not resolve application_context_average_over, using %d", averageOver))
+	}
+
 	return &Clock{
-		calendarDays: GetConfig().Period.CalendarDays,
-		workingDays:  GetConfig().Period.WorkingDays,
-		averageOver:  GetConfig().Period.AverageOver,
+		calendarDays: calendarDays,
+		workingDays:  workingDays,
+		averageOver:  averageOver,
 	}
 }
 

@@ -1,6 +1,7 @@
 package api
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -16,10 +17,14 @@ type FileStrategy struct {
 }
 
 func CreateFileStrategy() *FileStrategy {
-	config := utility.GetConfig().Env.Schedule
+	url, ok := utility.GetConfigProxy().GetScope("api_url_ics").ResolveString()
+	if !ok {
+		utility.GetLogger().Write(errors.New("api: could not resolve api_url_ics"))
+		os.Exit(1)
+	}
 
 	return &FileStrategy{
-		url: config.Url,
+		url: url,
 	}
 }
 
