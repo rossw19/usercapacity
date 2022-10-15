@@ -11,7 +11,13 @@ func loadUtilities() {
 	proxy := utility.GetConfigProxy()
 	proxy.SetConfig(config)
 
-	err := proxy.ReadConfig()
+	data, err := utility.ReadConfig("config.yml")
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	err = proxy.UnmarshalConfig(data)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)

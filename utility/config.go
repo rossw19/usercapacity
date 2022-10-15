@@ -2,6 +2,7 @@ package utility
 
 import (
 	"errors"
+	"fmt"
 	"gopkg.in/yaml.v3"
 	"os"
 	"strconv"
@@ -61,7 +62,8 @@ type Configurable interface {
 	GetScope(string) Scoper
 	AddScope(Scoper)
 	GetUsers() []Userable
-	ReadConfig() error
+	AddUser(Userable)
+	UnmarshalConfig([]byte) error
 }
 
 type Config struct {
@@ -87,7 +89,11 @@ func (c *Config) GetUsers() []Userable {
 	return c.users
 }
 
-func (c *Config) ReadConfig() error {
+func (c *Config) AddUser(user Userable) {
+	c.users = append(c.users, user)
+}
+
+func (c *Config) UnmarshalConfig(data []byte) error {
 	type InternalScope struct {
 		Path  string `yaml:"path"`
 		Value string `yaml:"value"`
@@ -106,14 +112,9 @@ func (c *Config) ReadConfig() error {
 
 	config := InternalConfig{}
 
-	data, err := os.ReadFile("config.yml")
+	err := yaml.Unmarshal(data, &config)
 	if err != nil {
-		return errors.New("utility: could not read file config.yml")
-	}
-
-	err = yaml.Unmarshal(data, &config)
-	if err != nil {
-		return errors.New("utility: could not parse yml, check config validity")
+		return fmt.Errorf("utility: could not parse yml, check config validity: %s", err)
 	}
 
 	for _, s := range config.InternalScopes {
@@ -132,6 +133,15 @@ func (c *Config) ReadConfig() error {
 	}
 
 	return nil
+}
+
+func ReadConfig(filename string) ([]byte, error) {
+	data, err := os.ReadFile(filename)
+	if err != nil {
+		return []byte{}, errors.New("utility: could not read file config.yml")
+	}
+
+	return data, nil
 }
 
 func CreateConfig() *Config {
@@ -154,8 +164,12 @@ func (c *ConfigProxy) GetUsers() []Userable {
 	return c.config.GetUsers()
 }
 
-func (c *ConfigProxy) ReadConfig() error {
-	return c.config.ReadConfig()
+func (c *ConfigProxy) AddUser(user Userable) {
+	c.config.AddUser(user)
+}
+
+func (c *ConfigProxy) UnmarshalConfig(data []byte) error {
+	return c.config.UnmarshalConfig(data)
 }
 
 func (c *ConfigProxy) SetConfig(config Configurable) {
@@ -200,4 +214,12 @@ func (u User) GetJiraId() string {
 
 func (u User) GetName() string {
 	return u.name
+}
+
+func CreateUser(everhourId int, jiraId string, name string) *User {
+	return &User{
+		everhourId: everhourId,
+		jiraId:     jiraId,
+		name:       name,
+	}
 }
