@@ -34,7 +34,7 @@ func jiraCall(context api.Contexter, jiraStrategy *api.JiraStrategy, requestUri 
 	context.ExecuteApi()
 }
 
-func createJiraStrategies(users map[int]model.User) []api.JiraStrategy {
+func createJiraStrategies(users map[int]model.Userable) []api.JiraStrategy {
 	var strategies []api.JiraStrategy
 	for _, u := range users {
 		strategy := api.CreateJiraStrategy(u)

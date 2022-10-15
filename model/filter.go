@@ -5,7 +5,7 @@ import (
 )
 
 type FilterModel struct {
-	users    map[int]User
+	users    map[int]Userable
 	previous Modeler
 }
 
@@ -13,11 +13,11 @@ func (f *FilterModel) buildModel() {
 	targetUsers := utility.GetConfigProxy().GetUsers()
 	previousUsers := f.GetPrevious().GetUsers()
 
-	f.users = map[int]User{}
+	f.users = map[int]Userable{}
 	for _, t := range targetUsers {
 		id := t.GetEverhourId()
 
-		f.users[id] = user{
+		f.users[id] = User{
 			name:        previousUsers[id].GetName(),
 			trackedTime: previousUsers[id].GetTimeTracked(),
 			averageTime: previousUsers[id].GetAvgTime(),
@@ -33,7 +33,7 @@ func (f *FilterModel) GetPrevious() Modeler {
 	return f.previous
 }
 
-func (f *FilterModel) GetUsers() map[int]User {
+func (f *FilterModel) GetUsers() map[int]Userable {
 	return f.users
 }
 

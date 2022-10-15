@@ -18,12 +18,12 @@ type JiraStrategy struct {
 	password     string
 	encoded      string
 	requestUri   string
-	user         model.User
+	user         model.Userable
 	request      *http.Request
 	responseBody []byte
 }
 
-func CreateJiraStrategy(user model.User) *JiraStrategy {
+func CreateJiraStrategy(user model.Userable) *JiraStrategy {
 	config := utility.GetConfigProxy()
 
 	url, ok := config.GetScope("api_url_jira").ResolveString()
