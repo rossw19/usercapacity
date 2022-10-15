@@ -1,23 +1,32 @@
-env:
-  everhour:
-    url: "https://api.everhour.com"
-    auth: "abcd-efgh-1234567-7890ab-cdefgh12"
-    version: "1.2"
-  jira:
-    url: "https://id.atlassian.com/"
-    email: "test@gmail.com"
-    auth: "6r8ywgbt3prik3tebpdttkg8"
-  schedule:
-    url: "https://api.scheduleleave.com"
-  logging: false
+# General application settings
+# Auth keys are mock values
+scopes:
+  - path: "api_url_everhour"
+    value: "https://api.everhour.com"
+  - path: "api_url_jira"
+    value: "https://id.atlassian.com/"
+  - path: "api_url_ics"
+    value: "https://api.scheduleleave.com"
+  - path: "api_email_jira"
+    value: "test@gmail.com"
+  - path: "api_auth_everhour"
+    value: "abcd-efgh-1234567-7890ab-cdefgh12"
+  - path: "api_auth_jira"
+    value: "6r8ywgbt3prik3tebpdttkg8"
+  - path: "api_version_everhour"
+    value: "1.2"
+  - path: "application_utility_logging"
+    value: "false"
+  - path: "application_context_calendar_days"
+    value: "7"
+  - path: "application_context_working_days"
+    value: "5"
+  - path: "application_context_average_over"
+    value: "3"
 
-mapping:
-  users:
-    - everhourId: 0019981
-      jiraId: "z46ftzgcv2x528r7hbuuycu3"
-      name: "John Smith"
 
-period:
-  calendarDays: 7
-  workingDays: 5
-  averageOver: 3
+# User mapping
+users:
+  - everhourId: 0019981
+    jiraId: "z46ftzgcv2x528r7hbuuycu3"
+    name: "John Smith"

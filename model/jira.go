@@ -8,18 +8,20 @@ type JiraModel struct {
 }
 
 func (m *JiraModel) buildModel() {
-	targetUsers := utility.GetConfig().Mapping.Users
+	targetUsers := utility.GetConfigProxy().GetUsers()
 	previousUsers := m.GetPrevious().GetUsers()
 
 	m.users = map[int]User{}
 	for _, t := range targetUsers {
-		m.users[t.EverhourId] = user{
-			name:        previousUsers[t.EverhourId].GetName(),
-			trackedTime: previousUsers[t.EverhourId].GetTimeTracked(),
-			averageTime: previousUsers[t.EverhourId].GetAvgTime(),
-			daysHadOff:  previousUsers[t.EverhourId].GetDaysHadOff(),
-			daysHaveOff: previousUsers[t.EverhourId].GetDaysHaveOff(),
-			jiraId:      t.JiraId,
+		everhourId := t.GetEverhourId()
+
+		m.users[everhourId] = user{
+			name:        previousUsers[everhourId].GetName(),
+			trackedTime: previousUsers[everhourId].GetTimeTracked(),
+			averageTime: previousUsers[everhourId].GetAvgTime(),
+			daysHadOff:  previousUsers[everhourId].GetDaysHadOff(),
+			daysHaveOff: previousUsers[everhourId].GetDaysHaveOff(),
+			jiraId:      t.GetJiraId(),
 		}
 	}
 

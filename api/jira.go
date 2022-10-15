@@ -3,6 +3,7 @@ package api
 import (
 	"bytes"
 	"encoding/base64"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -23,12 +24,30 @@ type JiraStrategy struct {
 }
 
 func CreateJiraStrategy(user model.User) *JiraStrategy {
-	config := utility.GetConfig().Env.Jira
+	config := utility.GetConfigProxy()
+
+	url, ok := config.GetScope("api_url_jira").ResolveString()
+	if !ok {
+		utility.GetLogger().Write(errors.New("api: could not resolve api_url_jira"))
+		os.Exit(1)
+	}
+
+	email, ok := config.GetScope("api_email_jira").ResolveString()
+	if !ok {
+		utility.GetLogger().Write(errors.New("api: could not resolve api_email_jira"))
+		os.Exit(1)
+	}
+
+	auth, ok := config.GetScope("api_auth_jira").ResolveString()
+	if !ok {
+		utility.GetLogger().Write(errors.New("api: could not resolve api_auth_jira"))
+		os.Exit(1)
+	}
 
 	return &JiraStrategy{
-		url:      config.Url,
-		username: config.Email,
-		password: config.Auth,
+		url:      url,
+		username: email,
+		password: auth,
 		user:     user,
 	}
 }

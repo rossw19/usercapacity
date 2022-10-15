@@ -1,11 +1,17 @@
 package api
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
 	"os"
 	"rosswilson/usercapacity/utility"
+)
+
+const (
+	defaultUrl     = "https://api.everhour.com"
+	defaultVersion = "1.2"
 )
 
 type EverhourStrategy struct {
@@ -18,12 +24,30 @@ type EverhourStrategy struct {
 }
 
 func CreateEverhourStrategy() *EverhourStrategy {
-	config := utility.GetConfig().Env.Everhour
+	config := utility.GetConfigProxy()
+
+	url, ok := config.GetScope("api_url_everhour").ResolveString()
+	if !ok {
+		url = defaultUrl
+		utility.GetLogger().Write(fmt.Errorf("api: could not resolve api_url_everhour, using %s", url))
+	}
+
+	authKey, ok := config.GetScope("api_auth_everhour").ResolveString()
+	if !ok {
+		utility.GetLogger().Write(errors.New("api: could not resolve api_auth_everhour"))
+		os.Exit(1)
+	}
+
+	apiVersion, ok := config.GetScope("api_version_everhour").ResolveString()
+	if !ok {
+		apiVersion = defaultVersion
+		utility.GetLogger().Write(fmt.Errorf("api: could not resolve api_version_everhour, using version %s", apiVersion))
+	}
 
 	return &EverhourStrategy{
-		url:        config.Url,
-		authKey:    config.Auth,
-		apiVersion: config.Version,
+		url:        url,
+		authKey:    authKey,
+		apiVersion: apiVersion,
 	}
 }
 
