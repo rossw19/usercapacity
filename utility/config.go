@@ -58,18 +58,18 @@ func CreateScope(path string, value string) *Scope {
 }
 
 type Configurable interface {
-	GetScope(string) Scope
+	GetScope(string) Scoper
 	AddScope(Scoper)
-	GetUsers() []user
+	GetUsers() []Userable
 	ReadConfig() error
 }
 
 type Config struct {
 	scopes []Scoper
-	users  []user
+	users  []Userable
 }
 
-func (c *Config) GetScope(path string) Scope {
+func (c *Config) GetScope(path string) Scoper {
 	for _, s := range c.scopes {
 		if s.GetPath() == path {
 			return s.(Scope)
@@ -83,7 +83,7 @@ func (c *Config) AddScope(scope Scoper) {
 	c.scopes = append(c.scopes, scope)
 }
 
-func (c *Config) GetUsers() []user {
+func (c *Config) GetUsers() []Userable {
 	return c.users
 }
 
@@ -124,7 +124,7 @@ func (c *Config) ReadConfig() error {
 	}
 
 	for _, u := range config.InternalUsers {
-		c.users = append(c.users, user{
+		c.users = append(c.users, User{
 			everhourId: u.EverhourId,
 			jiraId:     u.JiraId,
 			name:       u.Name,
@@ -142,7 +142,7 @@ type ConfigProxy struct {
 	config Configurable
 }
 
-func (c *ConfigProxy) GetScope(path string) Scope {
+func (c *ConfigProxy) GetScope(path string) Scoper {
 	return c.config.GetScope(path)
 }
 
@@ -150,7 +150,7 @@ func (c *ConfigProxy) AddScope(scope Scoper) {
 	c.config.AddScope(scope)
 }
 
-func (c *ConfigProxy) GetUsers() []user {
+func (c *ConfigProxy) GetUsers() []Userable {
 	return c.config.GetUsers()
 }
 
@@ -184,20 +184,20 @@ type Userable interface {
 	GetName() string
 }
 
-type user struct {
+type User struct {
 	everhourId int
 	jiraId     string
 	name       string
 }
 
-func (u user) GetEverhourId() int {
+func (u User) GetEverhourId() int {
 	return u.everhourId
 }
 
-func (u user) GetJiraId() string {
+func (u User) GetJiraId() string {
 	return u.jiraId
 }
 
-func (u user) GetName() string {
+func (u User) GetName() string {
 	return u.name
 }
