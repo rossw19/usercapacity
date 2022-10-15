@@ -53,25 +53,34 @@ func (s Scope) GetPath() string {
 	return s.path
 }
 
+func CreateScope(path string, value string) *Scope {
+	return &Scope{path: path, value: value}
+}
+
 type Configurable interface {
 	GetScope(string) Scope
+	AddScope(Scoper)
 	GetUsers() []user
 	ReadConfig() error
 }
 
 type Config struct {
-	scopes []Scope
+	scopes []Scoper
 	users  []user
 }
 
 func (c *Config) GetScope(path string) Scope {
 	for _, s := range c.scopes {
-		if s.path == path {
-			return s
+		if s.GetPath() == path {
+			return s.(Scope)
 		}
 	}
 
 	return Scope{}
+}
+
+func (c *Config) AddScope(scope Scoper) {
+	c.scopes = append(c.scopes, scope)
 }
 
 func (c *Config) GetUsers() []user {
@@ -135,6 +144,10 @@ type ConfigProxy struct {
 
 func (c *ConfigProxy) GetScope(path string) Scope {
 	return c.config.GetScope(path)
+}
+
+func (c *ConfigProxy) AddScope(scope Scoper) {
+	c.config.AddScope(scope)
 }
 
 func (c *ConfigProxy) GetUsers() []user {
