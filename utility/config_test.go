@@ -58,7 +58,7 @@ func TestCreateScope(t *testing.T) {
 	}
 }
 
-func TestGetScope(t *testing.T) {
+func TestConfig_GetScope(t *testing.T) {
 	scope := CreateScope("test", "test")
 	config := CreateConfig()
 	config.AddScope(*scope)
@@ -72,7 +72,7 @@ func TestGetScope(t *testing.T) {
 	}
 }
 
-func TestAddScope(t *testing.T) {
+func TestConfig_AddScope(t *testing.T) {
 	scope := CreateScope("test", "test")
 	config := CreateConfig()
 	config.AddScope(*scope)
@@ -83,6 +83,29 @@ func TestAddScope(t *testing.T) {
 
 	if config.GetScope("test").GetPath() != "test" {
 		t.Error("Failed to add scope")
+	}
+}
+
+func TestConfig_GetUsers(t *testing.T) {
+	config := CreateConfig()
+	user := CreateUser(0, "test", "test")
+	config.AddUser(*user)
+	users := config.GetUsers()
+
+	if len(users) != 1 {
+		t.Error("Failed to get users")
+	}
+
+	if users[0].GetName() != "test" {
+		t.Error("Failed to get users")
+	}
+
+	if users[0].GetJiraId() != "test" {
+		t.Error("Failed to get users")
+	}
+
+	if users[0].GetEverhourId() != 0 {
+		t.Error("Failed to get users")
 	}
 }
 
@@ -94,7 +117,7 @@ func TestCreateUser(t *testing.T) {
 	}
 }
 
-func TestAddUser(t *testing.T) {
+func TestConfig_AddUser(t *testing.T) {
 	user := CreateUser(0, "test", "test")
 	config := CreateConfig()
 	config.AddUser(*user)
@@ -175,7 +198,7 @@ func TestGetJiraId(t *testing.T) {
 
 // Uses library which is quite volatile to changes
 // in structs, this is why this test exists
-func TestUnmarshalConfig(t *testing.T) {
+func TestConfig_UnmarshalConfig(t *testing.T) {
 	config := CreateConfig()
 	yaml := `
 scopes:

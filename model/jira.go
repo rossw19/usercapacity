@@ -3,7 +3,7 @@ package model
 import "rosswilson/usercapacity/utility"
 
 type JiraModel struct {
-	users    map[int]User
+	users    map[int]Userable
 	previous Modeler
 }
 
@@ -11,11 +11,11 @@ func (m *JiraModel) buildModel() {
 	targetUsers := utility.GetConfigProxy().GetUsers()
 	previousUsers := m.GetPrevious().GetUsers()
 
-	m.users = map[int]User{}
+	m.users = map[int]Userable{}
 	for _, t := range targetUsers {
 		everhourId := t.GetEverhourId()
 
-		m.users[everhourId] = user{
+		m.users[everhourId] = User{
 			name:        previousUsers[everhourId].GetName(),
 			trackedTime: previousUsers[everhourId].GetTimeTracked(),
 			averageTime: previousUsers[everhourId].GetAvgTime(),
@@ -32,7 +32,7 @@ func (m *JiraModel) GetPrevious() Modeler {
 	return m.previous
 }
 
-func (m *JiraModel) GetUsers() map[int]User {
+func (m *JiraModel) GetUsers() map[int]Userable {
 	return m.users
 }
 

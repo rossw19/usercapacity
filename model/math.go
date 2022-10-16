@@ -5,18 +5,18 @@ import (
 )
 
 type MathModel struct {
-	users    map[int]User
+	users    map[int]Userable
 	previous Modeler
 	clock    utility.Clocker
 }
 
 func (m *MathModel) buildModel() {
-	m.users = map[int]User{}
+	m.users = map[int]Userable{}
 
 	for i, t := range m.GetPrevious().GetUsers() {
 		averageTime := m.calculateAverageTime(t.GetTimeTracked(), t.GetDaysHadOff(), t.GetDaysHaveOff())
 
-		m.users[i] = user{
+		m.users[i] = User{
 			name:        t.GetName(),
 			trackedTime: t.GetTimeTracked(),
 			averageTime: averageTime,
@@ -32,7 +32,7 @@ func (m *MathModel) GetPrevious() Modeler {
 	return m.previous
 }
 
-func (m *MathModel) GetUsers() map[int]User {
+func (m *MathModel) GetUsers() map[int]Userable {
 	return m.users
 }
 

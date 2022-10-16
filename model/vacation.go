@@ -11,14 +11,14 @@ import (
 )
 
 type VacationModel struct {
-	users    map[int]User
+	users    map[int]Userable
 	previous Modeler
 	ics      []byte
 	clock    utility.Clocker
 }
 
 func (v *VacationModel) buildModel() {
-	v.users = map[int]User{}
+	v.users = map[int]Userable{}
 
 	offsetDaysBefore := -1 * v.clock.GetCalendarDays() * v.clock.GetAverageOver()
 	offsetDaysAfter := v.clock.GetCalendarDays()
@@ -27,7 +27,7 @@ func (v *VacationModel) buildModel() {
 		daysHadOff := v.getUserDaysOff(t, time.Now().AddDate(0, 0, offsetDaysBefore), time.Now())
 		daysHaveOff := v.getUserDaysOff(t, time.Now(), time.Now().AddDate(0, 0, offsetDaysAfter))
 
-		v.users[i] = user{
+		v.users[i] = User{
 			name:        t.GetName(),
 			trackedTime: t.GetTimeTracked(),
 			daysHadOff:  daysHadOff,
@@ -42,7 +42,7 @@ func (v *VacationModel) GetPrevious() Modeler {
 	return v.previous
 }
 
-func (v *VacationModel) GetUsers() map[int]User {
+func (v *VacationModel) GetUsers() map[int]Userable {
 	return v.users
 }
 
@@ -54,7 +54,7 @@ func CreateVacationModel(previous Modeler, ics []byte, clock utility.Clocker) *V
 	}
 }
 
-func (v *VacationModel) getUserDaysOff(user User, start time.Time, end time.Time) int {
+func (v *VacationModel) getUserDaysOff(user Userable, start time.Time, end time.Time) int {
 	reader := bytes.NewReader(v.ics)
 	t0, t1 := sortTimes(start, end)
 

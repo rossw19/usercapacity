@@ -7,7 +7,7 @@ import (
 
 type EverhourUserModel struct {
 	stream   []byte
-	users    map[int]User
+	users    map[int]Userable
 	previous Modeler
 }
 
@@ -20,9 +20,9 @@ func (e *EverhourUserModel) buildModel() {
 	var jsonUsers []jsonUser
 	json.Unmarshal(e.stream, &jsonUsers)
 
-	e.users = map[int]User{}
+	e.users = map[int]Userable{}
 	for _, j := range jsonUsers {
-		e.users[j.Id] = user{
+		e.users[j.Id] = User{
 			name: j.Name,
 		}
 	}
@@ -34,7 +34,7 @@ func (e *EverhourUserModel) GetPrevious() Modeler {
 	return e.previous
 }
 
-func (e *EverhourUserModel) GetUsers() map[int]User {
+func (e *EverhourUserModel) GetUsers() map[int]Userable {
 	return e.users
 }
 
@@ -47,7 +47,7 @@ func CreateEverhourUserModel(previous Modeler, data []byte) *EverhourUserModel {
 
 type EverhourTimeModel struct {
 	stream   []byte
-	users    map[int]User
+	users    map[int]Userable
 	previous Modeler
 }
 
@@ -62,9 +62,9 @@ func (e *EverhourTimeModel) buildModel() {
 
 	previousUsers := e.GetPrevious().GetUsers()
 
-	e.users = map[int]User{}
+	e.users = map[int]Userable{}
 	for _, j := range jsonTimes {
-		e.users[j.Id] = user{
+		e.users[j.Id] = User{
 			name:        previousUsers[j.Id].GetName(),
 			trackedTime: j.Time,
 		}
@@ -77,7 +77,7 @@ func (e *EverhourTimeModel) GetPrevious() Modeler {
 	return e.previous
 }
 
-func (e *EverhourTimeModel) GetUsers() map[int]User {
+func (e *EverhourTimeModel) GetUsers() map[int]Userable {
 	return e.users
 }
 
