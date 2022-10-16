@@ -30,3 +30,6 @@ users:
   - everhourId: 0019981
     jiraId: "z46ftzgcv2x528r7hbuuycu3"
     name: "John Smith"
+  - everhourId: 0019982
+    jiraId: "z47fxzhcv2x536y8hbuuxcu4"
+    name: "Jane Doe"
