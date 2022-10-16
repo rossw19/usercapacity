@@ -3,6 +3,7 @@ package internal
 import (
 	"fmt"
 	"rosswilson/usercapacity/api"
+	"rosswilson/usercapacity/model"
 	"rosswilson/usercapacity/utility"
 )
 
@@ -33,5 +34,15 @@ func Run() {
 	jiraStrategies := createJiraStrategies(model.GetUsers())
 	jiraCalls(apiContext, jiraStrategies)
 
-	fmt.Printf("%+v", model)
+	logResults(model)
+}
+
+func logResults(model model.Modeler) {
+	logger := utility.GetLogger()
+
+	for _, u := range model.GetUsers() {
+		formatted := utility.GetFormattedTime(u.GetAvgTime())
+		message := fmt.Sprintf("%s has %s capacity remaining", u.GetName(), formatted)
+		logger.Write(message)
+	}
 }
