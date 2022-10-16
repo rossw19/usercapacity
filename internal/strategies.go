@@ -51,7 +51,6 @@ func jiraCalls(context api.Contexter, jiraStrategies []api.JiraStrategy) {
 }
 
 func scheduleLeaveCall(context api.Contexter, scheduleStrategy *api.FileStrategy) []byte {
-	scheduleStrategy.SetRequestUri("***REMOVED***")
 	context.SetApiStrategy(scheduleStrategy)
 	context.ExecuteApi()
 	return scheduleStrategy.GetFileContents()
