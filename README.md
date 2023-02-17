@@ -1,14 +1,4 @@
 <br />
-<div align="center">
-  <h1>
-    usercapacity
-  </h1>
-  <br />
-  <br />
-  <br />
-  <h3 align="center">Evaluate developer capacity for sprints</h3>
-  <br />
-</div>
 
 ## About
 
@@ -18,7 +8,18 @@
   <br />
 </div>
 
-## Settings
+## Installation
+
+```bash
+git clone https://github.com/rossw19/usercapacity.git
+cd usercapacity
+go get ./...
+go build cmd/capacity.go
+```
+
+<br />
+
+## Configuration
 
 <div>
   <br />
@@ -28,12 +29,19 @@
   <br />
 </div>
 
-```bash
-git clone https://github.com/rossw19/usercapacity.git
-cd usercapacity
-go get ./...
-go build cmd/capacity.go
-```
+| Key                                 | Description                                                                                                             |
+|-------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| `api_url_everhour`                  | The base URL for the [Everhour API](https://everhour.docs.apiary.io/)                                                   |
+| `api_url_jira`                      | The base URL for the [Jira API](https://docs.atlassian.com/software/jira/docs/api/REST/1000.824.0/)                     |
+| `api_url_ics`                       | The base URL for the calendar feed                                                                                      |
+| `api_email_jira`                    | The email address for the [Jira API](https://docs.atlassian.com/software/jira/docs/api/REST/1000.824.0/) authentication |
+| `api_auth_everhour`                 | The API key for the [Everhour API](https://everhour.docs.apiary.io/)                                                    |
+| `api_auth_jira`                     | The API key for the [Jira API](https://docs.atlassian.com/software/jira/docs/api/REST/1000.824.0/)                      |
+| `api_version_everhour`              | The version of the [Everhour API](https://everhour.docs.apiary.io/)                                                     |
+| `logging`                           | Enables logging to `var/log/debug.log` in root directory of application                                                 |
+| `application_context_calendar_days` | The number of days a sprint takes to complete, including non-working days                                               |
+| `application_context_working_days`  | The number of days a sprint takes to complete, excluding non-working days                                               |
+| `application_context_average_over`  | The number of sprints the average is calculated over                                                                    |
 
 <br />
 
@@ -46,6 +54,14 @@ go build cmd/capacity.go
   </p>
   <br />
 </div>
+
+| Key          | Description                                                                                                             |
+|--------------|-------------------------------------------------------------------------------------------------------------------------|
+| `everhourId` | The user ID for the [Everhour API](https://everhour.docs.apiary.io/)                                                     |
+| `jiraId`     | The user ID for the [Jira API](https://docs.atlassian.com/software/jira/docs/api/REST/1000.824.0/)                      |
+| `name`       | The name of the user in the calendar feed                                                                               |
+
+<br />
 
 ## Usage
 
